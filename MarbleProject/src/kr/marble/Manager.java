@@ -1,14 +1,11 @@
 package kr.marble;
 
-import java.util.Random;
-
 import kr.marble.building.Building;
 
 public class Manager { // 게임 관리 클래스
 	
 	private Player winner;
 	private Player[] players = new Player[4];
-	private Random random = new Random();
 	
 	private int turn = 0;
 	
@@ -34,7 +31,7 @@ public class Manager { // 게임 관리 클래스
 	private Manager() {}
 	
 	public int getDice(Player player) {
-		int rand = random.nextInt(11) + 1;
+		int rand = (int)((Math.random() * 11) + 1);
 		// player.move(rand); : player 클래스에서 아직 구현안됨
 		
 		return rand;
