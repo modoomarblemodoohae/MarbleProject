@@ -4,7 +4,7 @@ import kr.marble.building.Building;
 
 public abstract class GoldCard { // 골드 카드 추상클래스
 	
-	private String name; // 카드 이름
+	private String name; // 카드  이름
 	
 	public GoldCard(String name) {
 		this.name = name;
