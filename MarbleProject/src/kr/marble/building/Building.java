@@ -1,6 +1,6 @@
 package kr.marble.building;
 
-import kr.marble.Player;
+import kr.marble.Player; 
 import kr.marble.goldcard.GoldCard;
 
 public class Building { // 건물 클래스
@@ -11,6 +11,7 @@ public class Building { // 건물 클래스
 	private String buildingName; // 건물 이름
 	private Player who; // 소유자
 	
+	public static final int LEVEL_0 = 0;
 	public static final int LEVEL_1 = 1;
 	public static final int LEVEL_2 = 2;
 	public static final int LEVEL_3 = 3;
@@ -37,7 +38,7 @@ public class Building { // 건물 클래스
 	}
 	
 	public double getPenalty() {
-		return buyMoney * 0.85;
+		return (buyMoney / 2) * 1.5;
 	}
 	
 	public int getLevel() {
@@ -70,6 +71,18 @@ public class Building { // 건물 클래스
 	
 	public GoldCard getLastGoldCard() {
 		return card;
+	}
+	
+	public double getUpgradeMoney() {
+		double pen = getBuyMoney();
+		double percent = 0;
+		
+		
+		if(level == 0) percent = 0.2;
+		else if(level == 1) percent = 0.4;
+		else if(level == 2) percent = 0.6;
+		
+		return pen * percent;
 	}
 	
 	
