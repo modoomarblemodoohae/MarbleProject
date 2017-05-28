@@ -62,11 +62,21 @@ public class Manager { // 게임 관리 클래스
 	}
 	
 	public Player getTurnWho() { // 누구의 턴인가
-		return players[turn];
+		return players[turn % 4];
 	}
 	
 	public Building[] getPlayerHasBuildings(Player player) {
 		return null;
+	}
+	
+	public Player whoTurn() {
+		Player who = null;
+		for(int i = 0; i < 4; i ++) {
+			if(players[i].getStatus() != Player.ISLAND) who = players[i];
+			else turn++;
+		}
+		
+		return who;
 	}
 	
 	public void progressGame(Player player) {
