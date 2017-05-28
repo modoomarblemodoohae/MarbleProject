@@ -43,7 +43,7 @@ public class Building { // 건물 클래스
 		return (buyMoney / 2) * percent;
 	}
 	
-	public int getLevel() {
+	public int getLevel() { // 레벨
 		return level;
 	}
 	
