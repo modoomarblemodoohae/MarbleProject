@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import kr.marble.building.Building;
  
 public class Player {
-	private Money money; //µ·
-	private String name; //ÀÌ¸§
-	private int location; //À§Ä¡
-	private boolean noMoney = false; //ÇÃ·¹ÀÌ¾î ÆÄ»ê¿©ºÎ
+	private Money money; //ëˆ
+	private String name; //ì´ë¦„
+	private int location; //ìœ„ì¹˜
+	private boolean noMoney = false; //í”Œë ˆì´ì–´ íŒŒì‚°ì—¬ë¶€
 	private int status = 0;
-	private ArrayList<Building> buildings = new ArrayList<>(); //°Ç¹°µé
+	private ArrayList<Building> buildings = new ArrayList<>(); //ê±´ë¬¼ë“¤
 	
 	public static final int MORMAL = 0;
 	public static final int ISLAND = 1;
@@ -18,36 +18,36 @@ public class Player {
   
 	public Player(String name){ 
 		this.name = name; 
-	} //Player»ı¼ºÀÚ ////////////////////////////////// ¼öÁ¤ 1
+	} //Playerìƒì„±ì 
   
-	public void noMoney(){  ///////////////////////// ¼öÁ¤ 2
+	public void noMoney(){ // íŒŒì‚°
 		this.noMoney = true;
 	} 
-	public Money getMoney(){ /////////////////////////////// ¼öÁ¤ 3
+	public Money getMoney(){ //ëˆ
 		return money;
 	}
   
-	public boolean isNoMoney(){
+	public boolean isNoMoney(){ // íŒŒì‚°ì—¬ë¶€
 		return noMoney;
-	} // ÇÃ·¹ÀÌ¾î ÆÄ»ê ¿©ºÎ
+	} // í”Œë ˆì´ì–´ íŒŒì‚° ì—¬ë¶€
   
-	public String getName(){
+	public String getName(){ //ì´ë¦„
 		return name;
-	} //ÀÌ¸§ ¸®ÅÏ
+	} //ì´ë¦„ ë¦¬í„´
   
-	public void setName(String name){
+	public void setName(String name){ //ì´ë¦„ì„¤ì •
 		this.name = name;
-	} //ÀÌ¸§ ÀÔ·Â ¹ŞÀ½
+	} //ì´ë¦„ ì…ë ¥ ë°›ìŒ
   
-	public void move(int count){
+	public void move(int count){ //ì´ë™
 		location += count;
-	} //ÇÃ·¹ÀÌ¾î count °ª¿¡ µû¶ó ÀÌµ¿
+	} //í”Œë ˆì´ì–´ count ê°’ì— ë”°ë¼ ì´ë™
 	
-	public int getLocation() {
+	public int getLocation() { // ìœ„ì¹˜ë°˜í™˜
 		return location;
 	}
 	
-	public double getProperty() {
+	public double getProperty() {//ì¬ì‚°
 		Building[] builds = getBuildings();
 		double sum = 0;
 		
