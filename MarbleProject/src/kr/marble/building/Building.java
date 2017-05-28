@@ -1,6 +1,6 @@
 package kr.marble.building;
 
-import kr.marble.Player; 
+import kr.marble.Player;  
 import kr.marble.goldcard.GoldCard;
 
 public class Building { // 건물 클래스
@@ -21,11 +21,10 @@ public class Building { // 건물 클래스
 	}
 	
 	public void onBuyingBuilding(Player player) {
-		
+		if(who == null) level = LEVEL_0;
 	}
 	
 	public void onJoinWho(Player player) {
-		
 	}
 	
 	public void onUsingFromBuilding(GoldCard card) {
@@ -69,6 +68,10 @@ public class Building { // 건물 클래스
 		this.buyMoney = buyMoney;
 	}
 	
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	
 	public GoldCard getLastGoldCard() {
 		return card;
 	}
@@ -83,6 +86,15 @@ public class Building { // 건물 클래스
 		else if(level == 2) percent = 0.6;
 		
 		return pen * percent;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof Building)) return false;
+		
+		Building build = (Building) obj;
+		
+		return getBuildingName().equalsIgnoreCase(build.getBuildingName());
 	}
 	
 	
