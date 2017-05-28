@@ -21,7 +21,6 @@ public class Building { // 건물 클래스
 	}
 	
 	public void onBuyingBuilding(Player player) {
-		if(who == null) level = LEVEL_0;
 	}
 	
 	public void onJoinWho(Player player) {
@@ -36,8 +35,12 @@ public class Building { // 건물 클래스
 		return buildingName;
 	}
 	
-	public double getPenalty() {
-		return (buyMoney / 2) * 1.5;
+	public double getPenalty() {//벌금
+		double percent = 0;
+		if(level==3)percent=2.5;
+		else if(level==2)percent=2;
+		else if(level==1)percent=1.5;
+		return (buyMoney / 2) * percent;
 	}
 	
 	public int getLevel() {
