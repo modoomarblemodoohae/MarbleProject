@@ -1,7 +1,7 @@
 package kr.marble.building;
 
 public class City23_Seoul extends Building{
-		City23_Seoul(){
+		public City23_Seoul(){
 			super("¼­¿ï",500000);
 		}
 }
