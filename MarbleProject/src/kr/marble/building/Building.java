@@ -5,7 +5,9 @@ import kr.marble.goldcard.GoldCard;
 
 public class Building { // 건물 클래스
 	
-	private double buyMoney; // 건물 금액 
+	private double buyMoney; // 건물 금액
+	private double penalty = -1;
+	
 	private int level = 1; // 건물 레벨
 	private GoldCard card; // 카드
 	private String buildingName; // 건물 이름
@@ -35,12 +37,19 @@ public class Building { // 건물 클래스
 		return buildingName;
 	}
 	
-	public double getPenalty() {//벌금
-		double percent = 0;
-		if(level==3)percent=2.5;
-		else if(level==2)percent=2;
-		else if(level==1)percent=1.5;
-		return (buyMoney / 2) * percent;
+	public double getPenalty() { //벌금
+		if(penalty == -1) {
+			double percent = 0;
+			if(level==3) percent = 2.5;
+			else if(level==2) percent = 2;
+			else if(level==1) percent = 1.5;
+			return (buyMoney / 2) * percent;
+		}
+		return penalty;
+	}
+	
+	public void setPenalty(double penalty) {
+		this.penalty = penalty;
 	}
 	
 	public int getLevel() { // 레벨
