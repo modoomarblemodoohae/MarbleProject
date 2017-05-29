@@ -1,53 +1,48 @@
 package kr.marble;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import kr.marble.building.Building;
  
 public class Player {
-	private Money money; //�룉
-	private String name; //�씠由�
-	private int location; //�쐞移�
-	private boolean noMoney = false; //�뵆�젅�씠�뼱 �뙆�궛�뿬遺�
+	private Money money; //占쎈즷
+	private String name; //占쎌뵠�뵳占�
+	private int location; //占쎌맄燁삼옙
 	private int status = 0;
-	private ArrayList<Building> buildings = new ArrayList<>(); //嫄대Ъ�뱾
+	private ArrayList<Building> buildings = new ArrayList<>(); //椰꾨�窺占쎈굶
 	
-	public static final int MORMAL = 0;
+	private int waitTurn = 0; // 무인도에서 쉬는 턴
+	
+	public static final int NORMAL = 0;
 	public static final int ISLAND = 1;
 	public static final int SPACE_TRAVEL = 2;
+	public static final int NO_MONEY = 3;
 	
   
 	public Player(String name){ 
 		this.name = name; 
-	} //Player�깮�꽦�옄 
-  
-	public void noMoney(){ // �뙆�궛
-		this.noMoney = true;
-	} 
-	public Money getMoney(){ //�룉
+	} //Player占쎄문占쎄쉐占쎌쁽 
+	
+	public Money getMoney(){ //占쎈즷
 		return money;
 	}
   
-	public boolean isNoMoney(){ // �뙆�궛�뿬遺�
-		return noMoney;
-	} // �뵆�젅�씠�뼱 �뙆�궛 �뿬遺�
-  
-	public String getName(){ //�씠由�
+	public String getName(){ //占쎌뵠�뵳占�
 		return name;
-	} //�씠由� 由ы꽩
+	} //占쎌뵠�뵳占� �뵳�뗪쉘
   
-	public void setName(String name){ //�씠由꾩꽕�젙
+	public void setName(String name){ //占쎌뵠�뵳袁⑷퐬占쎌젟
 		this.name = name;
-	} //�씠由� �엯�젰 諛쏆쓬
+	} //占쎌뵠�뵳占� 占쎌뿯占쎌젾 獄쏆룇�벉
   
-	public void move(int count){ //�씠�룞
+	public void move(int count){ //占쎌뵠占쎈짗
 		location += count;
-	} //�뵆�젅�씠�뼱 count 媛믪뿉 �뵲�씪 �씠�룞
+	} //占쎈탣占쎌쟿占쎌뵠占쎈선 count 揶쏅�る퓠 占쎈뎡占쎌뵬 占쎌뵠占쎈짗
 	
-	public int getLocation() { // �쐞移섎컲�솚
+	public int getLocation() { // 占쎌맄燁살꼶而뀐옙�넎
 		return location;
 	}
 	
-	public double getProperty() {//�옱�궛
+	public double getProperty() {//占쎌삺占쎄텦
 		Building[] builds = getBuildings();
 		double sum = 0;
 		
@@ -118,6 +113,18 @@ public class Player {
 	
 	public int getStatus() {
 		return status;
+	}
+	
+	public void setWaitTurn(int count) {
+		waitTurn = count;
+	}
+	
+	public int getWaitTurn() {
+		return waitTurn;
+	}
+	
+	public void addWaitTurn() {
+		waitTurn++;
 	}
   
  }
