@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import kr.marble.building.Building;
  
 public class Player {
-	private Money money; //돈
-	private String name; //이름
-	private int location; //위치
-	private boolean noMoney = false; //플레이어 파산여부
+	private Money money; //�룉
+	private String name; //�씠由�
+	private int location; //�쐞移�
+	private boolean noMoney = false; //�뵆�젅�씠�뼱 �뙆�궛�뿬遺�
 	private int status = 0;
-	private ArrayList<Building> buildings = new ArrayList<>(); //건물들
+	private ArrayList<Building> buildings = new ArrayList<>(); //嫄대Ъ�뱾
 	
 	public static final int MORMAL = 0;
 	public static final int ISLAND = 1;
@@ -18,36 +18,36 @@ public class Player {
   
 	public Player(String name){ 
 		this.name = name; 
-	} //Player생성자 
+	} //Player�깮�꽦�옄 
   
-	public void noMoney(){ // 파산
+	public void noMoney(){ // �뙆�궛
 		this.noMoney = true;
 	} 
-	public Money getMoney(){ //돈
+	public Money getMoney(){ //�룉
 		return money;
 	}
   
-	public boolean isNoMoney(){ // 파산여부
+	public boolean isNoMoney(){ // �뙆�궛�뿬遺�
 		return noMoney;
-	} // 플레이어 파산 여부
+	} // �뵆�젅�씠�뼱 �뙆�궛 �뿬遺�
   
-	public String getName(){ //이름
+	public String getName(){ //�씠由�
 		return name;
-	} //이름 리턴
+	} //�씠由� 由ы꽩
   
-	public void setName(String name){ //이름설정
+	public void setName(String name){ //�씠由꾩꽕�젙
 		this.name = name;
-	} //이름 입력 받음
+	} //�씠由� �엯�젰 諛쏆쓬
   
-	public void move(int count){ //이동
+	public void move(int count){ //�씠�룞
 		location += count;
-	} //플레이어 count 값에 따라 이동
+	} //�뵆�젅�씠�뼱 count 媛믪뿉 �뵲�씪 �씠�룞
 	
-	public int getLocation() { // 위치반환
+	public int getLocation() { // �쐞移섎컲�솚
 		return location;
 	}
 	
-	public double getProperty() {//재산
+	public double getProperty() {//�옱�궛
 		Building[] builds = getBuildings();
 		double sum = 0;
 		
@@ -80,6 +80,10 @@ public class Player {
 		if(money.getMoney() < build.getBuyMoney()) return false;
 		
 		build.onBuyingBuilding(this);
+		
+		if(build.getWho() == null) 
+			build.setLevel(Building.LEVEL_0);
+		
 		build.setWho(this);
 		money.minusMoney(build.getBuyMoney());
 		buildings.add(build);
