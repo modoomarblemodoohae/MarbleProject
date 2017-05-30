@@ -2,6 +2,6 @@ package kr.marble.building;
 
 public class City09_Lima extends Building{
 		public City09_Lima(){
-			super("리마",160000);
+			super("리마",160000,11);
 		}
 }

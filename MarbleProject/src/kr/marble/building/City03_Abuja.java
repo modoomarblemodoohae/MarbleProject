@@ -2,6 +2,6 @@ package kr.marble.building;
 
 public class City03_Abuja extends Building{
 		public City03_Abuja(){
-			super("아부자",80000);
+			super("아부자",80000,3);
 		}
 }
