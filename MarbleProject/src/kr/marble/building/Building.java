@@ -9,6 +9,7 @@ public class Building { // 건물 클래스
 	private double penalty = -1;
 	
 	private int level = 1; // 건물 레벨
+	private int location;
 	private GoldCard card; // 카드
 	private String buildingName; // 건물 이름
 	private Player who; // 소유자
@@ -18,23 +19,16 @@ public class Building { // 건물 클래스
 	public static final int LEVEL_2 = 2;
 	public static final int LEVEL_3 = 3;
 	
-	public Building(String buildingName, double buyMoney) {
+	public Building(String buildingName, double buyMoney, int location) {
 		this.buyMoney = buyMoney;
-	}
-	
-	public void onBuyingBuilding(Player player) {
-	}
-	
-	public void onJoinWho(Player player) {
-	}
-	
-	public void onUsingFromBuilding(GoldCard card) {
-		card.usingGoldCard(this);
-		this.card = card;
 	}
 	
 	public String getBuildingName() {
 		return buildingName;
+	}
+	
+	public int getLocation() {
+		return location;
 	}
 	
 	public double getPenalty() { //벌금
