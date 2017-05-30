@@ -21,6 +21,8 @@ public class Building { // 건물 클래스
 	
 	public Building(String buildingName, double buyMoney, int location) {
 		this.buyMoney = buyMoney;
+		this.buildingName = buildingName;
+		this.location = location;
 	}
 	
 	public String getBuildingName() {
