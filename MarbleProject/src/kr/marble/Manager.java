@@ -1,6 +1,9 @@
 package kr.marble;
 
-import java.util.HashMap; 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import kr.marble.building.*;
@@ -14,12 +17,14 @@ public class Manager { // 게임 관리 클래스
 	private int turn = 0;
 	
 	private double donateMoney = 0;
-	private Map<String, Building> builds = new HashMap<>();
-	private Map<String, GoldCard> goldcards = new HashMap<>();
+	private Map<Integer, Building> builds = new HashMap<>();
+	private List<GoldCard> goldcards = new ArrayList<>();
+	private IGoldCardListener goldListener = null;
+	private IBuildingListener buildingListener = null;
 	
 	private static Manager instance = null;
 	
-	public static final double BASE_PLAYER_MONEY = 0; // 기본 플레이어 돈
+	public static final double BASE_PLAYER_MONEY = 2000000; // 기본 플레이어 돈
 	public static final double BASE_DONATE_MONEY = 100000;
 	
 	public static final int NO_PEOPLE_ISLAND_LOCATION = 8; // 무인도 지점
@@ -42,32 +47,65 @@ public class Manager { // 게임 관리 클래스
 		builds.clear();
 		goldcards.clear();
 		
-		builds.put("모가디슈", new City01_Mogadishu());
-		builds.put("루사카", new City02_Lusaka());
-		builds.put("아부자", new City03_Abuja());
-		builds.put("알제", new City04_Aljae());
-		builds.put("케이프타운", new City05_Kapetown());
-		builds.put("카이로", new City06_Kairo());
-		builds.put("카라카스", new City07_Karakas());
-		builds.put("보고타", new City08_Bogota());
-		builds.put("리마", new City09_Lima());
-		builds.put("산티아고", new City10_Santiago());
-		builds.put("키토", new City11_Kito());
-		builds.put("브라질리아", new City12_Brazilia());
-		builds.put("하노이", new City13_Hanoi());
-		builds.put("마닐라", new City14_Manila());
-		builds.put("뉴델리", new City15_Newdally());
-		builds.put("자카르타", new City16_Zakarta());
-		builds.put("베이징", new City17_Beijing());
-		builds.put("도쿄", new City18_Tokyo());
-		builds.put("모스크바", new City19_Moskba());
-		builds.put("베를린", new City20_Bellin());
-		builds.put("파리", new City21_Pari());
-		builds.put("뉴욕", new City22_Newyork());
-		builds.put("서울", new City23_Seoul());
+		builds.put(1, new City01_Mogadishu());
+		builds.put(2, new City02_Lusaka());
+		builds.put(3, new City03_Abuja());
+		builds.put(5, new City04_Aljae());
+		builds.put(6, new City05_Kapetown());
+		builds.put(7, new City06_Kairo());
+		builds.put(9, new City07_Karakas());
+		builds.put(10, new City08_Bogota());
+		builds.put(11, new City09_Lima());
+		builds.put(13, new City10_Santiago());
+		builds.put(14, new City11_Kito());
+		builds.put(15, new City12_Brazilia());
+		builds.put(17, new City13_Hanoi());
+		builds.put(18, new City14_Manila());
+		builds.put(19, new City15_Newdally());
+		builds.put(21, new City16_Zakarta());
+		builds.put(22, new City17_Beijing());
+		builds.put(23, new City18_Tokyo());
+		builds.put(25, new City19_Moskba());
+		builds.put(26, new City20_Bellin());
+		builds.put(27, new City21_Pari());
+		builds.put(29, new City22_Newyork());
+		builds.put(31, new City23_Seoul());
 		
-		for(int i = 0; i < name.length; i++)
+		goldcards.add(new BuildingLevelDown());
+		goldcards.add(new BuildingLevelUp());
+		goldcards.add(new FreeMoney());
+		goldcards.add(new GoIsland());
+		goldcards.add(new GoSpaceTravel());
+		goldcards.add(new GoStart());
+		goldcards.add(new PenaltyDown());
+		goldcards.add(new PenaltyUp());
+		goldcards.add(new RandomLocation());
+		goldcards.add(new RemoveBuilding());
+		
+		for(int i = 0; i < name.length; i++) {
 			players[i] = new Player(name[i]);
+			players[i].getMoney().setMoney(BASE_PLAYER_MONEY);
+		}
+	}
+	
+	public void setGoldCardEventListener(IGoldCardListener listener) { // 골드 카드 뽑았을때의 리스너 
+		this.goldListener = listener;
+	}
+	
+	public void setBuildingEventListener(IBuildingListener listener) {
+		this.buildingListener = listener;
+	}
+	
+	public void callBuyEvent(Building building, Player player) {
+		buildingListener.onBuyingBuilding(building, player);
+	}
+	
+	public void callWhoJoinEvent(Building building, Player player) {
+		buildingListener.onJoinWho(building, player);
+	}
+	
+	public void callUsingCardEvent(Building building, GoldCard goldcard) {
+		buildingListener.onUsingFromBuilding(building, goldcard);
 	}
 	
 	public int getDice(Player player) {
@@ -115,6 +153,14 @@ public class Manager { // 게임 관리 클래스
 		return who;
 	}
 	
+	public Collection<Building> getAllCity() {
+		return builds.values();
+	}
+	
+	public List<GoldCard> getAllCard() {
+		return goldcards;
+	}
+	
 	public void progressGame(Player player) {
 		int location = player.getLocation();
 		
@@ -132,7 +178,7 @@ public class Manager { // 게임 관리 클래스
 			player.setStatus(Player.SPACE_TRAVEL);
 		}else if(location == GOLD_CARD_LOCATION[0] || location == GOLD_CARD_LOCATION[1] ||
 				location == GOLD_CARD_LOCATION[2] || location == GOLD_CARD_LOCATION[3]) {
-			
+			goldListener.onSelectGoldCard(player);
 		}else if(location == PAY_DONATE_LOCATION) {
 			if(player.getMoney().getMoney() < BASE_DONATE_MONEY) {
 				player.setStatus(Player.NO_MONEY);
@@ -141,7 +187,16 @@ public class Manager { // 게임 관리 클래스
 				donateMoney += BASE_DONATE_MONEY;
 			}
 		}else{
-			player.setStatus(Player.NORMAL);
+			if(builds.containsKey(location))
+				buildingListener.onJoinWho(builds.get(location), player);
 		}
+	}
+	
+	
+	
+	public GoldCard getSelectGoldCard(Player player) {
+		int random = (int) ((Math.random() * goldcards.size()) - 1);
+		
+		return goldcards.get(random);
 	}
 }
