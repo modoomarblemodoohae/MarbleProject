@@ -42,6 +42,10 @@ public class Player {
 		return location;
 	}
 	
+	public void setLocation(int location) {
+		this.location = location;
+	}
+	
 	public double getProperty() {//占쎌삺占쎄텦
 		Building[] builds = getBuildings();
 		double sum = 0;
@@ -74,7 +78,7 @@ public class Player {
 	public boolean addBuilding(Building build) {
 		if(money.getMoney() < build.getBuyMoney()) return false;
 		
-		build.onBuyingBuilding(this);
+		Manager.getInstance().callBuyEvent(build, this);
 		
 		if(build.getWho() == null) 
 			build.setLevel(Building.LEVEL_0);
