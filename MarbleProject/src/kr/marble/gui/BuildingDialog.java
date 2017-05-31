@@ -10,13 +10,13 @@ import kr.marble.building.Building;
 
 public class BuildingDialog extends JDialog {
 	
-	public BuildingDialog(MainFrame frame, Building building) {
+	public BuildingDialog(GameMap frame, Building building) {
 		
 		super(frame, building.getBuildingName() + "의 정보");
 		
 		Font font = new Font("돋움체", Font.PLAIN, 12);
 		
-		setSize(250, 230);
+		setSize(250, 300);
 		setLayout(new FlowLayout(FlowLayout.CENTER, 100, 20));
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -50,7 +50,7 @@ public class BuildingDialog extends JDialog {
 			add(panelty);
 			add(level);
 		}
-		JLabel goldcard = new JLabel("최근 사용된 황금카드  : " + ( building.getLastGoldCard() == null ? " 없음" : building.getLastGoldCard().getName() + " 부여" ));
+		JLabel goldcard = new JLabel("최근 사용된 황금카드  : " + ( building.getGoldCard() == null ? " 없음" : building.getGoldCard().getName() + " 부여" ));
 		goldcard.setFont(font);
 		add(goldcard);
 		
