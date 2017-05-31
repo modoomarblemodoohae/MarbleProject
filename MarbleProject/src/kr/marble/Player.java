@@ -1,6 +1,7 @@
 package kr.marble;
 
 import java.util.ArrayList; 
+
 import kr.marble.building.Building;
 import kr.marble.goldcard.GoldCard;
  
@@ -19,6 +20,7 @@ public class Player {
 	public static final int ISLAND = 1;
 	public static final int SPACE_TRAVEL = 2;
 	public static final int NO_MONEY = 3;
+	public static final int STOP = 4;
 	
   
 	public Player(String name){ 
@@ -40,6 +42,10 @@ public class Player {
   
 	public void move(int count){ //占쎌뵠占쎈짗
 		location += count;
+		if(location >= 31) {
+			Manager.getInstance().getManagerEventListener().onStartLocation(this);
+			location -= 32;
+		}
 	} //占쎈탣占쎌쟿占쎌뵠占쎈선 count 揶쏅�る퓠 占쎈뎡占쎌뵬 占쎌뵠占쎈짗
 	
 	public int getLocation() { // 占쎌맄燁살꼶而뀐옙�넎
@@ -99,7 +105,7 @@ public class Player {
 	public boolean removeBuilding(Building build, Player player) {
 		if(!hasBuilding(build)) return false;
 		
-		money.addMoney(build.getBuyMoney() * 0.1);
+		// money.addMoney(build.getBuyMoney() * 0.1); : 매각 기능 X
 		build.removeGoldCard();
 		build.setWho(null);
 		build.setLevel(Building.LEVEL_0);

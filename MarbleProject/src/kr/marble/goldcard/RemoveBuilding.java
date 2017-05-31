@@ -5,7 +5,7 @@ import kr.marble.building.Building;
 
 public class RemoveBuilding extends GoldCard{		//건물 철거
 	public RemoveBuilding() {
-		super("건물 철거", true, false);
+		super("건물 철거", true, false, false);
 	}
 	
 	@Override	//건물에게만 사용

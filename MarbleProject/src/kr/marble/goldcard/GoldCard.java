@@ -8,11 +8,13 @@ public class GoldCard { // 골드 카드 추상클래스
 	private String name; // 카드  이름
 	private boolean needBuilding = false; // 건물이 이용되는가
 	private boolean needPlayer = false;
+	private boolean isMove = false;
 	
-	public GoldCard(String name, boolean needBuilding, boolean needPlayer) {
+	public GoldCard(String name, boolean needBuilding, boolean needPlayer, boolean isMove) {
 		this.name = name;
 		this.needBuilding = needBuilding;
 		this.needPlayer = needPlayer;
+		this.isMove = isMove;
 	}
 	
 	public void setName(String name) {
@@ -29,6 +31,10 @@ public class GoldCard { // 골드 카드 추상클래스
 	
 	public boolean isNeedPlayer() {
 		return needPlayer;
+	}
+	
+	public boolean isMove() {
+		return isMove;
 	}
 	
 	public void usingGoldCard(Building building) {}

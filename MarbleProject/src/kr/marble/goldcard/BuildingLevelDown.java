@@ -4,7 +4,7 @@ import kr.marble.building.Building;
 
 public class BuildingLevelDown extends GoldCard{		
 	public BuildingLevelDown() {
-		super("건물레벨 낮추기", false,true);
+		super("건물레벨 낮추기", true,false,false);
 	}
 	
 	@Override	//건물에게만 사용

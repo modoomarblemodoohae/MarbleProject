@@ -11,8 +11,7 @@ import kr.marble.goldcard.*;
 import kr.marble.gui.GameMap;
 
 public class Manager { // 게임 관리 클래스
-	
-	private Player winner;
+
 	private Player[] players = new Player[4];
 	
 	private int turn = 0;
@@ -38,7 +37,7 @@ public class Manager { // 게임 관리 클래스
 	public static final int[] GOLD_CARD_LOCATION = {4, 12, 20, 28}; // 골드카드 받는 지점
 	public static final int PAY_DONATE_LOCATION = 30; // 기부하는 지점
 	
-	public static final int TURN_LIMIT = 50;
+	public static final int TURN_LIMIT = 5;
 	public static final int WAIT_TURN_LIMIT = 3;
 	
 	public static Manager getInstance() {
@@ -126,14 +125,6 @@ public class Manager { // 게임 관리 클래스
 		return rand;
 	}
 	
-	public void setWinner(Player winner) {
-		this.winner = winner;
-	}
-	
-	public Player getWinner() {
-		return winner;
-	}
-	
 	public void addDonate(double donateMoney) {
 		this.donateMoney += donateMoney;
 	}
@@ -150,12 +141,16 @@ public class Manager { // 게임 관리 클래스
 		return players[turn % 4];
 	}
 	
-	public Building[] getPlayerHasBuildings(Player player) {
-		return null;
+	public int getTurn() {
+		return turn % 4;
 	}
 	
 	public void addTurn() {
 		turn++;
+	}
+	
+	public boolean isFillTurn() {
+		return turn >= TURN_LIMIT;
 	}
 	
 	public Collection<Building> getAllCity() {
@@ -185,8 +180,7 @@ public class Manager { // 게임 관리 클래스
 			managerListener.onReceiveDonate(player, donateMoney);
 			donateMoney = 0;
 		}else if(location == SPACE_TRAVEL_LOCATION) {
-			GameMap.isBreak = true;
-			GameMap.setSelectCity(player, GameMap.MODE_TRAVEL_TARGET);
+			managerListener.onSpaceTravel(player);
 		}else if(location == GOLD_CARD_LOCATION[0] || location == GOLD_CARD_LOCATION[1] ||
 				location == GOLD_CARD_LOCATION[2] || location == GOLD_CARD_LOCATION[3]) {
 			goldListener.onSelectGoldCard(player);

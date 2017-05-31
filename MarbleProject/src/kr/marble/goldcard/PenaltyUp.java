@@ -5,7 +5,7 @@ import kr.marble.building.Building;
 public class PenaltyUp extends GoldCard{	// 통행료 2배 증가
 	
 	public PenaltyUp() {
-		super("통행료 증가", true, false);
+		super("통행료 증가", true, false, false);
 	}
 	
 	@Override	//건물에게만 사용

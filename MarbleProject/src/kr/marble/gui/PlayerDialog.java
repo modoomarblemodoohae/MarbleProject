@@ -20,7 +20,6 @@ public class PlayerDialog extends JDialog {
 		setSize(300, 300);
 		setLayout(new FlowLayout(FlowLayout.CENTER, 100, 20));
 		setLocationRelativeTo(null);
-		setResizable(false);
 		
 		Building[] buildings = player.getBuildings();
 		
