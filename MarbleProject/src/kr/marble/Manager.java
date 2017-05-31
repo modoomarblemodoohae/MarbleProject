@@ -1,6 +1,6 @@
 package kr.marble;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +19,10 @@ public class Manager { // 게임 관리 클래스
 	private double donateMoney = 0;
 	private Map<Integer, Building> builds = new HashMap<>();
 	private List<GoldCard> goldcards = new ArrayList<>();
+	
 	private IGoldCardListener goldListener = null;
 	private IBuildingListener buildingListener = null;
+	private IManagerListener managerListener = null;
 	
 	private static Manager instance = null;
 	
@@ -41,9 +43,10 @@ public class Manager { // 게임 관리 클래스
 		return instance;
 	}
 	
-	private Manager() {}
+	private Manager() {
+	}
 	
-	public void init(String[] name) { // 게임이 실행되면 호출됨
+	public void init() { // 게임이 실행되면 호출됨
 		builds.clear();
 		goldcards.clear();
 		
@@ -81,7 +84,9 @@ public class Manager { // 게임 관리 클래스
 		goldcards.add(new PenaltyUp());
 		goldcards.add(new RandomLocation());
 		goldcards.add(new RemoveBuilding());
-		
+	}
+	
+	public void initPlayer(String[] name) {
 		for(int i = 0; i < name.length; i++) {
 			players[i] = new Player(name[i]);
 			players[i].getMoney().setMoney(BASE_PLAYER_MONEY);
@@ -94,6 +99,10 @@ public class Manager { // 게임 관리 클래스
 	
 	public void setBuildingEventListener(IBuildingListener listener) {
 		this.buildingListener = listener;
+	}
+	
+	public void setManagerEventListener(IManagerListener listener) {
+		this.managerListener = listener;
 	}
 	
 	public void callBuyEvent(Building building, Player player) {
@@ -161,6 +170,10 @@ public class Manager { // 게임 관리 클래스
 		return goldcards;
 	}
 	
+	public Building getBuilding(int idx) {
+		return builds.get(idx);
+	}
+	
 	public void progressGame(Player player) {
 		int location = player.getLocation();
 		
@@ -172,9 +185,11 @@ public class Manager { // 게임 관리 클래스
 			}
 			else player.setStatus(Player.ISLAND);
 		}else if(location == DONATE_LOCATION) {
+			managerListener.onReceiveDonate(player, donateMoney);
 			player.getMoney().addMoney(donateMoney);
 			donateMoney = 0;
 		}else if(location == SPACE_TRAVEL_LOCATION) {
+			managerListener.onSpaceTravel(player);
 			player.setStatus(Player.SPACE_TRAVEL);
 		}else if(location == GOLD_CARD_LOCATION[0] || location == GOLD_CARD_LOCATION[1] ||
 				location == GOLD_CARD_LOCATION[2] || location == GOLD_CARD_LOCATION[3]) {
@@ -182,7 +197,9 @@ public class Manager { // 게임 관리 클래스
 		}else if(location == PAY_DONATE_LOCATION) {
 			if(player.getMoney().getMoney() < BASE_DONATE_MONEY) {
 				player.setStatus(Player.NO_MONEY);
+				managerListener.onNoMoneyPlayer(player);
 			}else{
+				managerListener.onGiveDonate(player);
 				player.getMoney().minusMoney(BASE_DONATE_MONEY);
 				donateMoney += BASE_DONATE_MONEY;
 			}
