@@ -5,7 +5,7 @@ import kr.marble.Player;
 
 public class FreeMoney extends GoldCard{		
 	public FreeMoney() {
-		super("불우이웃 돕기!", false,true);
+		super("불우이웃 돕기", false,true);
 	}
 	@Override	//유저에게만 사용
 	public void usingGoldCard(Player player) {

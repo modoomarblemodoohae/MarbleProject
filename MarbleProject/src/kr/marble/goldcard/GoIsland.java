@@ -4,7 +4,7 @@ import kr.marble.Player;
 
 public class GoIsland extends GoldCard{
 	public GoIsland() {		//무인도 보내기
-		super("무인도 보내기!", true, false);
+		super("무인도 보내기", true, false);
 	}
 
 	
@@ -12,7 +12,6 @@ public class GoIsland extends GoldCard{
 	public void usingGoldCard(Player player) {
 		player.setLocation(8);
 	}
-
 
 }
 

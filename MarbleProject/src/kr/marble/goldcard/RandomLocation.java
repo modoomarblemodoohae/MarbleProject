@@ -8,7 +8,7 @@ public class RandomLocation extends GoldCard{
 	Random rd = new Random();
 	int RL = rd.nextInt(32)+1;
 	public RandomLocation() {
-		super("랜덤한곳으로 이동하기!", false,true);
+		super("랜덤한곳으로 이동하기", false,true);
 	}
 	
 	@Override	//유저에게만 사용

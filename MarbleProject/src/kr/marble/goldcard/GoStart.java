@@ -4,7 +4,7 @@ import kr.marble.Player;
 
 public class GoStart extends GoldCard{		
 	public GoStart() {
-		super("출발지로 이동!", false,true);
+		super("출발지로 이동", false,true);
 	}
 
 	@Override	//유저에게만 사용
