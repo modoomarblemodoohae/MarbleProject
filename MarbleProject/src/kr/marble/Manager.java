@@ -8,6 +8,7 @@ import java.util.Map;
 
 import kr.marble.building.*;
 import kr.marble.goldcard.*;
+import kr.marble.gui.GameMap;
 
 public class Manager { // 게임 관리 클래스
 	
@@ -27,8 +28,10 @@ public class Manager { // 게임 관리 클래스
 	private static Manager instance = null;
 	
 	public static final double BASE_PLAYER_MONEY = 2000000; // 기본 플레이어 돈
-	public static final double BASE_DONATE_MONEY = 100000;
+	public static final double BASE_DONATE_MONEY = 2000000;
+	public static final double START_LOCATION_MONEY = 200000;
 	
+	public static final int START_LOCATION = 0;
 	public static final int NO_PEOPLE_ISLAND_LOCATION = 8; // 무인도 지점
 	public static final int DONATE_LOCATION = 16; // 기부지점
 	public static final int SPACE_TRAVEL_LOCATION = 24; // 우주여행 지점
@@ -105,21 +108,20 @@ public class Manager { // 게임 관리 클래스
 		this.managerListener = listener;
 	}
 	
-	public void callBuyEvent(Building building, Player player) {
-		buildingListener.onBuyingBuilding(building, player);
+	public IGoldCardListener getGoldCardEventListener() {
+		return goldListener;
 	}
 	
-	public void callWhoJoinEvent(Building building, Player player) {
-		buildingListener.onJoinWho(building, player);
+	public IBuildingListener getBuildingEventListener() {
+		return buildingListener;
 	}
 	
-	public void callUsingCardEvent(Building building, GoldCard goldcard) {
-		buildingListener.onUsingFromBuilding(building, goldcard);
+	public IManagerListener getManagerEventListener() {
+		return managerListener;
 	}
 	
-	public int getDice(Player player) {
+	public int getDice() {
 		int rand = (int)((Math.random() * 11) + 1);
-		player.move(rand);
 		
 		return rand;
 	}
@@ -152,14 +154,8 @@ public class Manager { // 게임 관리 클래스
 		return null;
 	}
 	
-	public Player whoTurn() {
-		Player who = null;
-		for(int i = 0; i < 4; i ++) {
-			if(players[i].getStatus() != Player.ISLAND) who = players[i];
-			else turn++;
-		}
-		
-		return who;
+	public void addTurn() {
+		turn++;
 	}
 	
 	public Collection<Building> getAllCity() {
@@ -171,13 +167,14 @@ public class Manager { // 게임 관리 클래스
 	}
 	
 	public Building getBuilding(int idx) {
-		return builds.get(idx);
+		return builds.containsKey(idx) ? builds.get(idx) : null;
 	}
 	
 	public void progressGame(Player player) {
 		int location = player.getLocation();
 		
 		if(location == NO_PEOPLE_ISLAND_LOCATION) {
+			managerListener.onJoinIsLand(player);
 			player.addWaitTurn();
 			if(player.getWaitTurn() == WAIT_TURN_LIMIT) {
 				player.setStatus(Player.NORMAL);
@@ -186,25 +183,26 @@ public class Manager { // 게임 관리 클래스
 			else player.setStatus(Player.ISLAND);
 		}else if(location == DONATE_LOCATION) {
 			managerListener.onReceiveDonate(player, donateMoney);
-			player.getMoney().addMoney(donateMoney);
 			donateMoney = 0;
 		}else if(location == SPACE_TRAVEL_LOCATION) {
-			managerListener.onSpaceTravel(player);
-			player.setStatus(Player.SPACE_TRAVEL);
+			GameMap.isBreak = true;
+			GameMap.setSelectCity(player, GameMap.MODE_TRAVEL_TARGET);
 		}else if(location == GOLD_CARD_LOCATION[0] || location == GOLD_CARD_LOCATION[1] ||
 				location == GOLD_CARD_LOCATION[2] || location == GOLD_CARD_LOCATION[3]) {
 			goldListener.onSelectGoldCard(player);
 		}else if(location == PAY_DONATE_LOCATION) {
 			if(player.getMoney().getMoney() < BASE_DONATE_MONEY) {
 				player.setStatus(Player.NO_MONEY);
-				managerListener.onNoMoneyPlayer(player);
+				managerListener.onNoMoneyPlayer(player, BASE_DONATE_MONEY);
 			}else{
 				managerListener.onGiveDonate(player);
 				player.getMoney().minusMoney(BASE_DONATE_MONEY);
 				donateMoney += BASE_DONATE_MONEY;
 			}
+		}else if(location == START_LOCATION) {
+			managerListener.onStartLocation(player);
 		}else{
-			if(builds.containsKey(location))
+			if(builds.containsKey(location)) 
 				buildingListener.onJoinWho(builds.get(location), player);
 		}
 	}

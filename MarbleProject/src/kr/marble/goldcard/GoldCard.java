@@ -34,4 +34,6 @@ public class GoldCard { // 골드 카드 추상클래스
 	public void usingGoldCard(Building building) {}
 	public void usingGoldCard(Player player) {}
 	public void usingGoldCard(Building building, Player player) {}
+	
+	public void returnCard(Building building){} // 카드의 효과가 사라졌을때
 }
