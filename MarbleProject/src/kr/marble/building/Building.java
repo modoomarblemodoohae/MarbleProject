@@ -8,7 +8,7 @@ public class Building { // 건물 클래스
 	private double buyMoney; // 건물 금액
 	private double penalty = -1;
 	
-	private int level = 1; // 건물 레벨
+	private int level = LEVEL_0; // 건물 레벨
 	private int location;
 	private GoldCard card; // 카드
 	private String buildingName; // 건물 이름
@@ -36,9 +36,10 @@ public class Building { // 건물 클래스
 	public double getPenalty() { //벌금
 		if(penalty == -1) {
 			double percent = 0;
-			if(level==3) percent = 2.5;
-			else if(level==2) percent = 2;
-			else if(level==1) percent = 1.5;
+			if(level==LEVEL_3) percent = 2.5;
+			else if(level==LEVEL_2) percent = 2;
+			else if(level==LEVEL_1) percent = 1.5;
+			else if(level==LEVEL_0) percent = 1.2;
 			return (buyMoney / 2) * percent;
 		}
 		return penalty;
@@ -80,8 +81,16 @@ public class Building { // 건물 클래스
 		this.level = level;
 	}
 	
-	public GoldCard getLastGoldCard() {
+	public GoldCard getGoldCard() {
 		return card;
+	}
+	
+	public void setGoldCard(GoldCard card) {
+		this.card = card;
+	}
+	
+	public void removeGoldCard() {
+		this.card = null;
 	}
 	
 	public double getUpgradeMoney() {
