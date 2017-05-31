@@ -1,6 +1,6 @@
 package kr.marble.building;
 
-import kr.marble.Player;  
+import kr.marble.Player;   
 import kr.marble.goldcard.GoldCard;
 
 public class Building { // 건물 클래스
