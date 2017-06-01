@@ -101,8 +101,17 @@ public class MainFrame extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					String name[] = new String[4];
+					String overlap = "";
 					for(int i = 0; i < fields.length; i ++) {
 						if(fields[i].getText().equalsIgnoreCase("")) return;
+						overlap = fields[i].getText();
+						for(int j = i; j < fields.length; j ++) {
+							if(i == j) continue;
+							if(fields[j].getText().equalsIgnoreCase(overlap)) {
+								JOptionPane.showMessageDialog(null, "중복인 이름이 있습니다.");
+								return;
+							}
+						}
 						name[i] = new String(fields[i].getText());
 					}
 					Manager.getInstance().initPlayer(name);
