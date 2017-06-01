@@ -27,7 +27,7 @@ public class Manager { // 게임 관리 클래스
 	private static Manager instance = null;
 	
 	public static final double BASE_PLAYER_MONEY = 2000000; // 기본 플레이어 돈
-	public static final double BASE_DONATE_MONEY = 2000000;
+	public static final double BASE_DONATE_MONEY = 200000;
 	public static final double START_LOCATION_MONEY = 200000;
 	
 	public static final int START_LOCATION = 0;
@@ -37,7 +37,7 @@ public class Manager { // 게임 관리 클래스
 	public static final int[] GOLD_CARD_LOCATION = {4, 12, 20, 28}; // 골드카드 받는 지점
 	public static final int PAY_DONATE_LOCATION = 30; // 기부하는 지점
 	
-	public static final int TURN_LIMIT = 5;
+	public static final int TURN_LIMIT = 100;
 	public static final int WAIT_TURN_LIMIT = 3;
 	
 	public static Manager getInstance() {

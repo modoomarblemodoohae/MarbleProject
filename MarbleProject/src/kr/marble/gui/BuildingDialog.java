@@ -16,7 +16,7 @@ public class BuildingDialog extends JDialog {
 		
 		Font font = new Font("µ¸¿òÃ¼", Font.PLAIN, 12);
 		
-		setSize(250, 300);
+		setSize(350, 300);
 		setLayout(new FlowLayout(FlowLayout.CENTER, 100, 20));
 		setLocationRelativeTo(null);
 		setResizable(false);

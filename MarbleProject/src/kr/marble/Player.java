@@ -91,6 +91,7 @@ public class Player {
 			build.setLevel(Building.LEVEL_0);
 		
 		build.setWho(this);
+		build.setLevel(Building.LEVEL_0);
 		money.minusMoney(build.getBuyMoney());
 		buildings.add(build);
 		Manager.getInstance().getBuildingEventListener().onBuyingBuilding(build, this);

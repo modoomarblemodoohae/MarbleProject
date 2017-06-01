@@ -1,6 +1,6 @@
 package kr.marble.gui;
 
-import java.awt.Color; 
+import java.awt.Color;  
 import java.awt.Font;   
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,8 +28,7 @@ import kr.marble.goldcard.GoldCard;
 import kr.marble.goldcard.IGoldCardListener;
 
 public class GameMap extends JFrame {
-	
-	private boolean isStart = false;
+
 	private int idx = 0;
 	public static boolean isBreak = false;
 	
@@ -53,7 +51,6 @@ public class GameMap extends JFrame {
 	
 	private JTextArea area = new JTextArea();
 	private JScrollPane pane;
-	private ButtonGroup group = new ButtonGroup();
 	private Manager manager = Manager.getInstance();
 	private EventListener listener = new EventListener();
 	
@@ -141,8 +138,7 @@ public class GameMap extends JFrame {
 	
 	public void stopGame(Player winner) {
 		winnerLabel.setText(winner.getName() + " " + winnerLabel.getText()); 
-		winnerLabel.setFont(new Font("굴림체", Font.BOLD, 50));
-		winnerLabel.setForeground(Color.RED);
+		winnerLabel.setFont(new Font("돋움체", Font.BOLD, 50));
 		
 		for(int i = 0; i < button.length; i ++)
 			remove(button[i]);
@@ -151,10 +147,10 @@ public class GameMap extends JFrame {
 			remove(playerDisplay[i]);
 		}
 		
-		int startX = ((button[12].getX() + button[28].getX()) / 2) - 100;
-		int startY = ((button[4].getY() + button[20].getY()) / 2) - 100;
+		int startX = ((button[12].getX() + button[28].getX()) / 2) - 130;
+		int startY = ((button[4].getY() + button[20].getY()) / 2) - 130;
 		
-		winnerLabel.setBounds(startX, startY, 200, 200);
+		winnerLabel.setBounds(startX, startY, 500, 300);
 		add(winnerLabel);
 		log(winner.getName() + "님의 승리!");
 		
@@ -203,10 +199,12 @@ public class GameMap extends JFrame {
 		for(int i = 0; i < playerBtn.length; i ++) {
 			playerBtn[i] = new JButton(players[i].getName());
 			infoBtn[i] = new JButton("정보");
+			infoBtn[i].setBackground(color[i]);
+			infoBtn[i].setForeground(Color.WHITE);
 			
 			if(i > 0) playerBtn[i].setEnabled(false);
 			infoBtn[i].setBounds(x, y, 100, 100);
-			playerBtn[i].setBounds(x + 110, y, 300, 100);
+			playerBtn[i].setBounds(x + 110, y, 490, 100);
 			
 			y += 105;
 			add(infoBtn[i]);
@@ -310,7 +308,7 @@ public class GameMap extends JFrame {
 				if(building.getGoldCard() != null) {
 					GoldCard card = building.getGoldCard();
 					if(card.isNeedPlayer()) card.usingGoldCard(building, player);
-					else card.usingGoldCard(player);
+					else card.usingGoldCard(building);
 					
 					log("미리 설치된 " + card.getName() + " 카드가 발동되었습니다.");
 				}
@@ -366,6 +364,7 @@ public class GameMap extends JFrame {
 
 		@Override
 		public void onPlayGoldCard(GoldCard card) {
+			
 			log(card.getName() + " 카드가 발동되었습니다.");
 		}
 
@@ -460,6 +459,8 @@ public class GameMap extends JFrame {
 							log("Error");
 						else
 							stopGame(who);
+						
+						return;
 					}
 				}
 				if(players[idx].getStatus() != Player.STOP) 
